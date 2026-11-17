@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospital Appointment System</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 30px auto; padding: 0 16px; }
+    h1 { color: #176b58; }
+    form { display: grid; gap: 10px; max-width: 400px; margin-bottom: 30px; }
+    input, select, button { padding: 10px; font: inherit; }
+    button { background: #176b58; color: white; border: 0; cursor: pointer; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 9px; border: 1px solid #ccc; text-align: left; }
+    @media (max-width: 600px) { table { font-size: 13px; } th, td { padding: 6px; } }
+  </style>
+</head>
+<body>
+  <h1>Hospital Appointment System</h1>
+  <h2>Book an appointment</h2>
+  <form id="appointment-form">
+    <input name="patient" placeholder="Patient name" required>
+    <input name="phone" type="tel" placeholder="Phone number" required>
+    <select name="doctor" required>
+      <option value="">Select a doctor</option>
+      <option>Dr. Maya Patel - Cardiology</option>
+      <option>Dr. Ethan Brooks - Dermatology</option>
+      <option>Dr. Olivia Chen - Pediatrics</option>
+      <option>Dr. Noah Williams - Orthopedics</option>
+    </select>
+    <input name="date" type="date" required>
+    <button type="submit">Add appointment</button>
+  </form>
+
+  <h2>Appointments</h2>
+  <table>
+    <thead><tr><th>Patient</th><th>Phone</th><th>Doctor</th><th>Date</th><th></th></tr></thead>
+    <tbody id="appointments"></tbody>
+  </table>
+  <p>Demo only: appointments are not saved after you close or refresh this page.</p>
+
+  <script>
+    const form = document.getElementById("appointment-form");
+    const appointments = document.getElementById("appointments");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const row = appointments.insertRow();
+
+      ["patient", "phone", "doctor", "date"].forEach((field) => {
+        row.insertCell().textContent = data.get(field);
+      });
+
+      const removeCell = row.insertCell();
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.textContent = "Remove";
+      removeButton.addEventListener("click", () => row.remove());
+      removeCell.append(removeButton);
+      form.reset();
+    });
+  </script>
+</body>
+</html>
